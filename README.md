@@ -1,13 +1,13 @@
-# Twitter Block Plugin for OJS 3
+# Twitter Block Plugin for OJS 3.4
 
 ![CI Test](https://github.com/RBoelter/twitterBlock/workflows/CI%20Test/badge.svg?branch=master)
 
 ![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/RBoelter/twitterBlock?include_prereleases&label=latest%20release)
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/RBoelter/twitterBlock)
 ![GitHub](https://img.shields.io/github/license/RBoelter/twitterBlock)
-[![OJS-Version](https://img.shields.io/badge/pkp--ojs-3.3.0-brightgreen)](https://github.com/pkp/ojs/tree/master)
-[![OMP-Version](https://img.shields.io/badge/pkp--omp-3.3.0-brightgreen)](https://github.com/pkp/omp/tree/master)
-[![OPS-Version](https://img.shields.io/badge/pkp--ops-3.3.0-brightgreen)](https://github.com/pkp/ops/tree/master)
+[![OJS-Version](https://img.shields.io/badge/pkp--ojs-3.4.0-brightgreen)](https://github.com/pkp/ojs/tree/master)
+[![OMP-Version](https://img.shields.io/badge/pkp--omp-3.4.0-brightgreen)](https://github.com/pkp/omp/tree/master)
+[![OPS-Version](https://img.shields.io/badge/pkp--ops-3.4.0-brightgreen)](https://github.com/pkp/ops/tree/master)
 ![GitHub All Releases](https://img.shields.io/github/downloads/RBoelter/twitterBlock/total)
 #### Install the plugin via "Upload a new plugin" in the Plugin tab of the website settings or upload it directly to the Block Plugin folder (usually ojs-root/plugins/blocks).
 
@@ -23,5 +23,5 @@
 ![alt text](https://user-images.githubusercontent.com/7657717/59442987-863d9000-8dfb-11e9-84f7-55d6e1fb3b19.png)
 
 
-#### The Plugin is now activted:
+#### The Plugin is now activated:
 ![alt text](https://user-images.githubusercontent.com/7657717/59442988-863d9000-8dfb-11e9-8037-43022f4b4726.png)
