@@ -1,10 +1,11 @@
 <?php
 
-namespace APP\plugins\blocks\twitterBlock;
+namespace APP\plugins\blocks\twitterBlock\classes;
 
 use APP\core\Application;
 use APP\notification\Notification;
 use APP\notification\NotificationManager;
+use APP\plugins\blocks\twitterBlock\TwitterBlockPlugin;
 use APP\template\TemplateManager;
 use PKP\form\Form;
 use PKP\form\validation\FormValidatorCSRF;
@@ -12,9 +13,10 @@ use PKP\form\validation\FormValidatorPost;
 
 class SettingsForm extends Form
 {
-    public $plugin;
-
-    public function __construct($plugin)
+    /**
+     * Constructor
+     */
+    public function __construct(public TwitterBlockPlugin $plugin)
     {
         parent::__construct($plugin->getTemplateResource('settings.tpl'));
         $this->plugin = $plugin;
@@ -23,47 +25,30 @@ class SettingsForm extends Form
     }
 
     /**
-     * Load settings already saved in the database
-     *
-     * Settings are stored by context, so that each journal or press
-     * can have different settings.
+     * @copydoc Form::initData()
      */
-    public function initData()
+    public function initData(): void
     {
-        $request = Application::get()->getRequest();
-        $context = $request->getContext();
-        $contextId = ($context && $context->getId()) ? $context->getId() : Application::CONTEXT_SITE;
-        $this->setData('tweetTitle', $this->plugin->getSetting($contextId, 'tweetTitle'));
-        $this->setData('tweetUrl', $this->plugin->getSetting($contextId, 'tweetUrl'));
-        $this->setData('tweetColor', $this->plugin->getSetting($contextId, 'tweetColor'));
-        $this->setData('tweetOptions', $this->plugin->getSetting($contextId, 'tweetOptions'));
-        $this->setData('tweetHeight', $this->plugin->getSetting($contextId, 'tweetHeight'));
-        $this->setData('tweetDataLimit', $this->plugin->getSetting($contextId, 'tweetDataLimit'));
+        $contextId = Application::get()->getRequest()->getContext()?->getId() ?: Application::CONTEXT_SITE;
+        foreach (['tweetTitle', 'tweetUrl', 'tweetColor', 'tweetOptions', 'tweetHeight', 'tweetDataLimit'] as $setting) {
+            $this->setData($setting, $this->plugin->getSetting($contextId, $setting));
+        }
         parent::initData();
     }
 
     /**
-     * Load data that was submitted with the form
+     * @copydoc Form::readInputData()
      */
-    public function readInputData()
+    public function readInputData(): void
     {
         $this->readUserVars(['tweetTitle', 'tweetUrl', 'tweetColor', 'tweetOptions', 'tweetHeight', 'tweetDataLimit']);
         parent::readInputData();
     }
 
     /**
-     * Fetch any additional data needed for your form.
-     *
-     * Data assigned to the form using $this->setData() during the
-     * initData() or readInputData() methods will be passed to the
-     * template.
-     *
-     * @param null $template
-     * @param bool $display
-     *
-     * @return string|null
+     * @copydoc Form::fetch()
      */
-    public function fetch($request, $template = null, $display = false)
+    public function fetch($request, $template = null, $display = false): string
     {
         $templateMgr = TemplateManager::getManager($request);
         $templateMgr->assign('pluginName', $this->plugin->getName());
@@ -71,21 +56,16 @@ class SettingsForm extends Form
     }
 
     /**
-     * Save the settings
-     *
-     * @return mixed|null
+     * @copydoc Form::execute()
      */
     public function execute(...$functionArgs)
     {
         $request = Application::get()->getRequest();
-        $context = $request->getContext();
-        $contextId = ($context && $context->getId()) ? $context->getId() : Application::CONTEXT_SITE;
-        $this->plugin->updateSetting($contextId, 'tweetTitle', $this->getData('tweetTitle'));
-        $this->plugin->updateSetting($contextId, 'tweetUrl', $this->getData('tweetUrl'));
-        $this->plugin->updateSetting($contextId, 'tweetColor', $this->getData('tweetColor'));
-        $this->plugin->updateSetting($contextId, 'tweetOptions', $this->getData('tweetOptions'));
-        $this->plugin->updateSetting($contextId, 'tweetHeight', $this->getData('tweetHeight'));
-        $this->plugin->updateSetting($contextId, 'tweetDataLimit', $this->getData('tweetDataLimit'));
+        $contextId = $request->getContext()?->getId() ?: Application::CONTEXT_SITE;
+        foreach (['tweetTitle', 'tweetUrl', 'tweetColor', 'tweetOptions', 'tweetHeight', 'tweetDataLimit'] as $setting) {
+            $this->plugin->updateSetting($contextId, $setting, $this->getData($setting));
+        }
+
         $notificationMgr = new NotificationManager();
         $notificationMgr->createTrivialNotification(
             $request->getUser()->getId(),

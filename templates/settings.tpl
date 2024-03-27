@@ -1,24 +1,24 @@
 <script>
-    $(function () {ldelim}
-        $('#twitterSettings').pkpHandler('$.pkp.controllers.form.AjaxFormHandler');
-        {rdelim});
+	$(function () {ldelim}
+		$('#twitterSettings').pkpHandler('$.pkp.controllers.form.AjaxFormHandler');
+	{rdelim});
 </script>
 
 <form
-        class="pkp_form"
-        id="twitterSettings"
-        method="POST"
-        action="{url router=$smarty.const.ROUTE_COMPONENT op="manage" category="blocks" plugin=$pluginName verb="settings" save=true}"
+	class="pkp_form"
+	id="twitterSettings"
+	method="POST"
+	action="{url router=$smarty.const.ROUTE_COMPONENT op="manage" category="blocks" plugin=$pluginName verb="settings" save=true}"
 >
-    <!-- Always add the csrf token to secure your form -->
-    {csrf}
+	<!-- Always add the csrf token to secure your form -->
+	{csrf}
 
-    {fbvFormArea}
-        <div class="pkp_notification">
-            <div class="notifyWarning">
-                {translate key="plugins.blocks.twitter.cookie.warning"}
-            </div>
-        </div>
+	{fbvFormArea id="twitterSettingsFormArea"}
+		<div class="pkp_notification">
+			<div class="notifyWarning">
+				{translate key="plugins.blocks.twitter.cookie.warning"}
+			</div>
+		</div>
 		{fbvFormSection title="plugins.blocks.twitter.tweet.title"}
 			{fbvElement type="text" id="tweetTitle" value=$tweetTitle}
 		{/fbvFormSection}
@@ -37,6 +37,6 @@
 		{fbvFormSection title="plugins.blocks.twitter.tweet.limit"}
 			{fbvElement type="text" id="tweetDataLimit" value=$tweetDataLimit}
 		{/fbvFormSection}
-    {/fbvFormArea}
-    {fbvFormButtons submitText="common.save"}
+	{/fbvFormArea}
+	{fbvFormButtons submitText="common.save"}
 </form>
