@@ -69,8 +69,8 @@ class TwitterBlockPlugin extends BlockPlugin
 	{
 		switch ($request->getUserVar('verb')) {
 			case 'settings':
-				$this->import('TwitterBlockPluginSettingsForm');
-				$form = new TwitterBlockPluginSettingsForm($this);
+				$this->import('SettingsForm');
+				$form = new SettingsForm($this);
 				if (!$request->getUserVar('save')) {
 					$form->initData();
 					return new JSONMessage(true, $form->fetch($request));

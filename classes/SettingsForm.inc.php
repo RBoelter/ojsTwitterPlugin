@@ -2,7 +2,7 @@
 
 import('lib.pkp.classes.form.Form');
 
-class TwitterBlockPluginSettingsForm extends Form
+class SettingsForm extends Form
 {
 
 
