@@ -1,3 +1,3 @@
 <?php
-require_once('TwitterBlockPlugin.inc.php');
+require_once('TwitterBlockPlugin.php');
 return new TwitterBlockPlugin();
