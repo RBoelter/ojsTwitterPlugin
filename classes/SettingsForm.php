@@ -1,6 +1,14 @@
 <?php
 
-import('lib.pkp.classes.form.Form');
+namespace APP\plugins\blocks\twitterBlock;
+
+use APP\core\Application;
+use APP\notification\Notification;
+use APP\notification\NotificationManager;
+use APP\template\TemplateManager;
+use PKP\form\Form;
+use PKP\form\validation\FormValidatorCSRF;
+use PKP\form\validation\FormValidatorPost;
 
 class SettingsForm extends Form
 {
@@ -26,7 +34,7 @@ class SettingsForm extends Form
     {
     	$request = Application::get()->getRequest();
 	    $context = $request->getContext();
-	    $contextId = ($context && $context->getId()) ? $context->getId() : CONTEXT_SITE;
+	    $contextId = ($context && $context->getId()) ? $context->getId() : Application::CONTEXT_SITE;
         $this->setData('tweetTitle', $this->plugin->getSetting($contextId, 'tweetTitle'));
         $this->setData('tweetUrl', $this->plugin->getSetting($contextId, 'tweetUrl'));
         $this->setData('tweetColor', $this->plugin->getSetting($contextId, 'tweetColor'));
@@ -72,18 +80,17 @@ class SettingsForm extends Form
     {
 	    $request = Application::get()->getRequest();
 	    $context = $request->getContext();
-	    $contextId = ($context && $context->getId()) ? $context->getId() : CONTEXT_SITE;
+	    $contextId = ($context && $context->getId()) ? $context->getId() : Application::CONTEXT_SITE;
         $this->plugin->updateSetting($contextId, 'tweetTitle', $this->getData('tweetTitle'));
         $this->plugin->updateSetting($contextId, 'tweetUrl', $this->getData('tweetUrl'));
         $this->plugin->updateSetting($contextId, 'tweetColor', $this->getData('tweetColor'));
         $this->plugin->updateSetting($contextId, 'tweetOptions', $this->getData('tweetOptions'));
         $this->plugin->updateSetting($contextId, 'tweetHeight', $this->getData('tweetHeight'));
         $this->plugin->updateSetting($contextId, 'tweetDataLimit', $this->getData('tweetDataLimit'));
-        import('classes.notification.NotificationManager');
         $notificationMgr = new NotificationManager();
         $notificationMgr->createTrivialNotification(
             $request->getUser()->getId(),
-            NOTIFICATION_TYPE_SUCCESS,
+            Notification::NOTIFICATION_TYPE_SUCCESS,
             ['contents' => __('common.changesSaved')]
         );
         return parent::execute();

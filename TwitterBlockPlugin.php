@@ -1,5 +1,13 @@
 <?php
-import('lib.pkp.classes.plugins.BlockPlugin');
+
+namespace APP\plugins\blocks\twitterBlock\classes;
+
+use APP\core\Application;
+use APP\plugins\blocks\twitterBlock\SettingsForm;
+use PKP\core\JSONMessage;
+use PKP\linkAction\LinkAction;
+use PKP\linkAction\request\AjaxModal;
+use PKP\plugins\BlockPlugin;
 
 class TwitterBlockPlugin extends BlockPlugin
 {
@@ -23,7 +31,7 @@ class TwitterBlockPlugin extends BlockPlugin
 	public function getContents($templateMgr, $request = null)
 	{
 		$context = Application::get()->getRequest()->getContext();
-		$contextId = ($context && $context->getId()) ? $context->getId() : CONTEXT_SITE;
+		$contextId = ($context && $context->getId()) ? $context->getId() : Application::CONTEXT_SITE;
 		$templateMgr->assign('tweetTitle', $this->getSetting($contextId, 'tweetTitle'));
 		$templateMgr->assign('tweetUrl', $this->getSetting($contextId, 'tweetUrl'));
 		$templateMgr->assign('tweetColor', $this->getSetting($contextId, 'tweetColor'));
@@ -40,7 +48,6 @@ class TwitterBlockPlugin extends BlockPlugin
 			return $actions;
 		}
 		$router = $request->getRouter();
-		import('lib.pkp.classes.linkAction.request.AjaxModal');
 		$linkAction = new LinkAction(
 			'settings',
 			new AjaxModal(
@@ -69,7 +76,6 @@ class TwitterBlockPlugin extends BlockPlugin
 	{
 		switch ($request->getUserVar('verb')) {
 			case 'settings':
-				$this->import('SettingsForm');
 				$form = new SettingsForm($this);
 				if (!$request->getUserVar('save')) {
 					$form->initData();
