@@ -12,8 +12,6 @@ use PKP\form\validation\FormValidatorPost;
 
 class SettingsForm extends Form
 {
-
-
     public $plugin;
 
     public function __construct($plugin)
@@ -32,9 +30,9 @@ class SettingsForm extends Form
      */
     public function initData()
     {
-    	$request = Application::get()->getRequest();
-	    $context = $request->getContext();
-	    $contextId = ($context && $context->getId()) ? $context->getId() : Application::CONTEXT_SITE;
+        $request = Application::get()->getRequest();
+        $context = $request->getContext();
+        $contextId = ($context && $context->getId()) ? $context->getId() : Application::CONTEXT_SITE;
         $this->setData('tweetTitle', $this->plugin->getSetting($contextId, 'tweetTitle'));
         $this->setData('tweetUrl', $this->plugin->getSetting($contextId, 'tweetUrl'));
         $this->setData('tweetColor', $this->plugin->getSetting($contextId, 'tweetColor'));
@@ -53,17 +51,18 @@ class SettingsForm extends Form
         parent::readInputData();
     }
 
-	/**
-	 * Fetch any additional data needed for your form.
-	 *
-	 * Data assigned to the form using $this->setData() during the
-	 * initData() or readInputData() methods will be passed to the
-	 * template.
-	 * @param $request
-	 * @param null $template
-	 * @param bool $display
-	 * @return string|null
-	 */
+    /**
+     * Fetch any additional data needed for your form.
+     *
+     * Data assigned to the form using $this->setData() during the
+     * initData() or readInputData() methods will be passed to the
+     * template.
+     *
+     * @param null $template
+     * @param bool $display
+     *
+     * @return string|null
+     */
     public function fetch($request, $template = null, $display = false)
     {
         $templateMgr = TemplateManager::getManager($request);
@@ -71,16 +70,16 @@ class SettingsForm extends Form
         return parent::fetch($request, $template, $display);
     }
 
-	/**
-	 * Save the settings
-	 * @param mixed ...$functionArgs
-	 * @return mixed|null
-	 */
+    /**
+     * Save the settings
+     *
+     * @return mixed|null
+     */
     public function execute(...$functionArgs)
     {
-	    $request = Application::get()->getRequest();
-	    $context = $request->getContext();
-	    $contextId = ($context && $context->getId()) ? $context->getId() : Application::CONTEXT_SITE;
+        $request = Application::get()->getRequest();
+        $context = $request->getContext();
+        $contextId = ($context && $context->getId()) ? $context->getId() : Application::CONTEXT_SITE;
         $this->plugin->updateSetting($contextId, 'tweetTitle', $this->getData('tweetTitle'));
         $this->plugin->updateSetting($contextId, 'tweetUrl', $this->getData('tweetUrl'));
         $this->plugin->updateSetting($contextId, 'tweetColor', $this->getData('tweetColor'));
